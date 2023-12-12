@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>
+  <style>
+    /* Your CSS styles here */
+  </style>
+</head>
+<body>
+  <template>
+    <div class="container">
+      <div class="registration-column">
+        <h2>Регистрация</h2>
+        <div class="card">
+          <div class="form-group">
+            <label for="username">Имя пользователя:</label>
+            <input id="username" v-model="newUser.Username" type="text" class="input-field" />
+          </div>
+          <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input id="password" v-model="newUser.Password" type="password" class="input-field" />
+          </div>
+          <div class="form-group">
+            <label for="id">ID:</label>
+            <input id="id" v-model.number="newUser.Id" type="number" class="input-field" />
+          </div>
+          <button @click="registerUser" class="btn">Зарегистрировать</button>
+        </div>
+      </div>
+    </div>
+    <button @click="showUsers = true" class="btn">Зарегистрированные пользователи</button> <!-- Добавленная кнопка -->
+  </div>
+  <div class="users-column">
+    <h2>Пользователи</h2>
+    <div v-if="showUsers" v-for="user in Users" :key="user.id" class="card">
+      <h2>User ID: {{ user.Id }}</h2>
+      <p>Username: {{ user.Username }}</p>
+      <p>Password: {{ user.Password }}</p>
+    </div>
+  </div>
+    </div>
+  </template>
+
+  <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    // Вставьте скрипт с Vue.js и Axios здесь
+  </script>
+
+  <style scoped>
+    /* Вставьте стили здесь */
+  </style>
+</body>
+</html>
