@@ -83,5 +83,5 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  background-attachment: fixed; /* Добавляем фиксированное прикрепление фона */
+  background-attachment: fixed; 
 }

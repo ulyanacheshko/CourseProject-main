@@ -23,10 +23,14 @@ namespace MovieTickets.Controllers
             return await _userService.GetById(id);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<int>> Create([FromBody] UserDto user)
+        [HttpPost("register")]
+        public async Task<ActionResult<int>> Create([FromBody] CreateUserDto user)
         {
-            return await _userService.Create(user);
+            return await _userService.Create(new UserDto
+            {
+                Password = user.Password,
+                Username = user.Username
+            });
         }
 
         [HttpGet("Users")]

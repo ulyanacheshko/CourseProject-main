@@ -2,6 +2,7 @@
   <div id="app">
     <h1 class="title">Portal of Buying Movie Tickets</h1>
     <UserComponentVue />
+    <UserListComponent />
     <FilmComponentVue msg="Portal of buying movie tickets" />
   </div>
 </template>

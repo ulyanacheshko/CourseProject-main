@@ -10,12 +10,7 @@ using AutoMapper;
 using HotelBooking.DataAccess.Repository;
 using MovieTickets;
 
- IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+ 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +45,13 @@ builder.Services.AddScoped<ITicketService, TicketService>();
 
 builder.Services.AddAutoMapper(typeof(TicketProfile));
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", build =>
+    build.AllowAnyMethod()
+         .AllowAnyHeader()
+         .AllowAnyOrigin());
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -61,7 +62,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("CorsPolicy");
 app.UseAuthorization();
 
 app.MapControllers();

@@ -3,7 +3,7 @@
   <div class="orders-column">
     <h2>Заказы</h2>
     <div v-for="order in orders" :key="order.id" class="card">
-      <h2>Order number: {{ order.userId }}</h2>
+      <h2>Order number: {{ order.id }}</h2>
       <p>Amount: {{ order.amount }}</p>
       <button @click="addToBasket(order)">Add to basket</button>
     </div>
@@ -11,7 +11,7 @@
   <div class="basket-column">
     <h2>Корзина</h2>
     <div v-for="order in basket" :key="order.id" class="card">
-      <h2>Order number: {{ order.userId }}</h2>
+      <h2>Order number: {{ order.id }}</h2>
       <p>Amount: {{ order.amount }}</p>
       <button @click="removeFromBasket(order)">Remove from basket</button>
     </div>
@@ -113,7 +113,6 @@ removeFromBasket(order) {
   padding-left: 20px;
 }
 
-/* Изменения цветов на оранжевый */
 .container {
   background-color: orange;
 }

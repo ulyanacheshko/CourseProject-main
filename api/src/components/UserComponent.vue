@@ -5,26 +5,28 @@
       <div class="card">
         <div class="form-group">
           <label for="username">Имя пользователя:</label>
-          <input id="username" v-model="newUser.Username" type="text" class="input-field" />
+          <input id="username" v-model="newUser.username" type="text" class="input-field" />
         </div>
         <div class="form-group">
           <label for="password">Пароль:</label>
-          <input id="password" v-model="newUser.Password" type="password" class="input-field" />
-        </div>
-        <div class="form-group">
-          <label for="id">ID:</label>
-          <input id="id" v-model.number="newUser.Id" type="number" class="input-field" />
+          <input id="password" v-model="newUser.password" type="password" class="input-field" />
         </div>
         <button @click="registerUser" class="btn">Зарегистрировать</button>
       </div>
     </div>
     <div class="users-column">
       <h2>Пользователи</h2>
-      <div v-for="user in Users" :key="user.Id" class="card user-card">
-  <h2>User ID: {{ user.Id }}</h2>
-  <p>Username: {{ user.Username }}</p>
-  <p>Password: {{ user.Password }}</p>
-</div>
+      <div v-for="user in Users" :key="user.id" class="card user-card">
+        <p>Username: {{ user.username }}</p>
+        <p>Password: {{ user.password }}</p>
+        <p>ID: {{ user.id }}</p>
+      </div>
+      <div v-if="newUser.username || newUser.password">
+        <h3>Новый пользователь:</h3>
+        <p>Username: {{ newUser.username }}</p>
+        <p>Password: {{ newUser.password }}</p>
+        <p>ID: {{ Users.length + 1 }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -37,43 +39,43 @@ export default {
     return {
       Users: [],
       newUser: {
-        Username: '',
-        Password: '',
-        Id: null,
+        username: '',
+        password: ''
       },
     };
   },
   methods: {
+    async fetchUsers() {
+      try {
+        const response = await axios.get('https://localhost:7146/User/Users');
+        this.Users = response.data;
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    },
     async registerUser() {
       try {
-        const response = await axios.post('https://localhost:7146/User/register', this.newUser);
+        const response = await axios.post('https://localhost:7146/User/register', this.newUser, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
         const registeredUser = response.data;
-        this.Users.unshift(registeredUser);
-        this.newUser.Username = '';
-        this.newUser.Password = '';
-        this.newUser.Id = null;
+        this.newUser.username = '';
+        this.newUser.password = '';
+
         console.log('User registered:', registeredUser);
-        this.fetchUsers(); 
+
+        // Обновление списка пользователей
+        this.fetchUsers();
       } catch (error) {
         console.error('Error registering user:', error);
       }
     },
-    async fetchUsers() {
-  try {
-    const response = await axios.get('https://localhost:7146/User/Users');
-    this.Users = response.data.map(user => ({
-      ...user,
-      Username: user.username,
-      Password: user.password,
-      Id: user.id
-    }));
-  } catch (error) {
-    console.error('Error getting users:', error);
-  }
-},
   },
   created() {
-    this.fetchUsers(); 
+    this.fetchUsers();
   },
 };
 </script>
